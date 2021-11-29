@@ -1,0 +1,35 @@
+# ------------------------------------
+#   欢迎您使用阿里云函数计算 FC 组件进行项目开发
+#   组件仓库地址/帮助文档：https://github.com/devsapp/fc
+#   Yaml参考文档：https://github.com/devsapp/fc/blob/main/docs/zh/yaml.md
+#   快速入门：
+#      快速创建应用：https://github.com/devsapp/fc/blob/main/docs/zh/quick_start_application.md
+#      快速使用命令：https://github.com/devsapp/fc/blob/main/docs/zh/quick_start_function.md
+# ------------------------------------
+
+
+edition: 1.0.0
+name: container-tensorflow
+access: {{ access }}
+vars:
+  region: cn-shenzhen
+services:
+  customContainer-build-demo:
+    component: devsapp/fc
+    props:
+      region: ${vars.region}
+      service:
+        name: customContainer-tensorflow
+        internetAccess: true
+      function:
+        name: event-function
+        description: event function powered by flask
+        handler: not-used
+        timeout: 60
+        caPort: 9000
+        memorySize: 1536
+        runtime: custom-container
+        customContainerConfig:
+          image: registry.cn-shenzhen.aliyuncs.com/fc-demo/fc-tensorflow:v0.1
+        codeUri: ./code
+# 函数计算FC组件文档参考地址：https://github.com/devsapp/fc

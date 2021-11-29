@@ -1,0 +1,59 @@
+# ------------------------------------
+#   欢迎您使用阿里云函数计算 FC 组件进行项目开发
+#   组件仓库地址/帮助文档：https://github.com/devsapp/fc
+#   Yaml参考文档：https://github.com/devsapp/fc/blob/main/docs/zh/yaml.md
+#   快速入门：
+#      快速创建应用：https://github.com/devsapp/fc/blob/main/docs/zh/quick_start_application.md
+#      快速使用命令：https://github.com/devsapp/fc/blob/main/docs/zh/quick_start_function.md
+# ------------------------------------
+
+edition: 1.0.0          #  命令行YAML规范版本，遵循语义化版本（Semantic Versioning）规范
+name: imageAi           # 项目名称
+access: '{{access}}'         #  秘钥别名
+
+services:
+  imageAi: #  服务名称
+    component: devsapp/fc
+    actions: # 自定义执行逻辑
+      pre-deploy: # 在deploy之前运行
+        - run: s build --use-docker  # 要运行的命令行
+          path: ./ # 命令行运行的路径
+      post-deploy: # 在deploy之后运行
+        - run: s nas command mkdir /mnt/auto/.s
+          path: ./ # 命令行运行的路径
+        - run: s nas upload -r -n ./.s/build/artifacts/ai-cv-image-prediction/server/.s/python /mnt/auto/.s/python   # 要运行的命令行
+          path: ./ # 命令行运行的路径
+        - run: s nas upload -r -n ./src/model  /mnt/auto/model   # 要运行的命令行
+          path: ./ # 命令行运行的路径
+    props: #  组件的属性值
+      region: cn-hangzhou
+      service:
+        name: ai-cv-image-prediction
+        description: 图片目标检测服务
+        nasConfig: auto
+        vpcConfig: auto
+        logConfig: auto
+      function:
+        name: server
+        description: 图片目标检测
+        runtime: python3
+        codeUri: ./src
+        handler: index.app
+        memorySize: 3072
+        timeout: 60
+        environmentVariables:
+          PYTHONUSERBASE: /mnt/auto/.s/python
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+      customDomains:
+        - domainName: auto
+          protocol: HTTP
+          routeConfigs:
+            - path: /*

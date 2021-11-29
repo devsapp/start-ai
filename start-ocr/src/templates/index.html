@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Serverless OCR Example</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-light" >
+  <div class="container">
+    <div class="jumbotron">
+        <div class="container">
+          <h2>Serverless OCR</h2>
+          <p>这是一个 Serverless 的 OCR 示例应用。该示例借助于 Python 库 <a href="https://github.com/sirfz/tesserocr">tesserocr</a> 对图片中的文字进行识别，使用了 <a href="https://github.com/tesseract-ocr/tessdata_fast">tessdata_fast</a> 模型。运行于阿里云函数计算之上，通过函数计算，您无需管理服务器等基础设施，只需要为代码实际运行所消耗的资源付费，代码未运行则不产生费用。</p>
+        </div>
+    </div>
+
+  <div class="row" id="app">
+    <div class="container col-md-12">
+      <div class="alert alert-danger" role="alert" v-if="error">
+        {[error]}
+      </div>
+    </div>
+    <div class="col-md-4 order-md-1">
+      <h4 class="mb-3">
+        <span class="text-muted">选择图片</span>
+      </h4>
+      <form action="./recognize" method="post" @submit.prevent="submit">
+        <div class="mb-3">
+          <div class="form-check form-check">
+            <input class="form-check-input" type="radio" id="sample" value="sample" v-model="type">
+            <label class="form-check-label" for="sample">示例图片</label>
+          </div>
+          <div class="form-check form-check">
+            <input class="form-check-input" type="radio" id="upload" value="upload" v-model="type">
+            <label class="form-check-label" for="upload">上传图片</label>
+          </div>
+          <div class="form-check form-check">
+            <input class="form-check-input" type="radio" id="url" value="url" v-model="type">
+            <label class="form-check-label" for="url">图片地址</label>
+          </div>
+        </div>
+        <hr class="mb-3">
+        <div class="input-group mb-3" v-if="type === 'sample'">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="samplePic">示例图片</label>
+          </div>
+          <select class="custom-select" id="samplePic" v-model="sample">
+            <option value="sample1.jpg" selected>sample1.jpg</option>
+            <option value="sample2.jpg">sample2.jpg</option>
+            <option value="sample3.jpg">sample3.jpg</option>
+          </select>
+        </div>
+        <div class="input-group mb-3" v-if="type === 'upload'">
+          <div class="input-group-prepend">
+            <span class="input-group-text">上传</span>
+          </div>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01" name="file" accept="image/png, image/jpeg" @change="getFile($event)">
+            <label class="custom-file-label" for="inputGroupFile01">{[ upload ? upload.name : "上传图片" ]}</label>
+          </div>
+        </div>
+        <div class="mb-3" v-if="type === 'url'">
+          <input class="form-control" type="text" name="url" 
+            placeholder="https://xxxx.com/xxxx.jpg" v-model="url">
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit" :disabled="disableBtn">识别</button>
+      </form>
+    </div>
+
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">图片预览</span>
+      </h4>
+      <image :src="previewUrl" class="img-thumbnail" style="max-height: 210px;"/>
+    </div>
+
+    <div class="col-md-4 order-md-3 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">识别结果</span>
+      </h4>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="8">{[text]}</textarea>
+    </div>
+  </div>
+  <footer class="pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy;阿里云函数计算</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="https://github.com/vangie/fc-ocr-example">示例源码</a></li>
+      <li class="list-inline-item"><a href="https://aliyun.com/product/fc">函数计算</a></li>      
+    </ul>
+  </footer>
+
+  <script>
+    var defaultImage = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_171873846d2%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_171873846d2%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.421875%22%20y%3D%22104.5%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E';
+    var app = new Vue({
+      delimiters: ['{[', ']}'],
+      el: '#app',
+      data: {
+        type: 'sample',
+        sample: 'sample1.jpg',
+        upload: undefined,
+        url: 'http://static-aliyun-doc.oss-cn-hangzhou.aliyuncs.com/assets/img/13169/15584256705805_en-US.png',
+        previewUrl: 'sample1.jpg',
+        text: '',
+        oversized: false,
+        error: undefined 
+      },
+      watch: {
+        type: function (val) {
+          if(val === 'sample') {
+            this.previewUrl = 'sample1.jpg';
+            return;
+          } else if ((val === 'upload' )) {
+            if(this.upload){
+              this.previewUrl = URL.createObjectURL(this.upload);
+              return;
+            }
+          } else if(this.url) {
+            this.previewUrl = this.url;
+            return;
+          }
+          this.previewUrl = defaultImage;
+        },
+        previewUrl: function (val) {
+          this.text = '';
+        },
+        url: function(val) {
+          this.previewUrl = val;
+        },
+        sample: function(val) {
+          this.previewUrl = val;
+        }
+      },
+      computed: {
+        disableBtn: function(){
+          if(this.type === 'upload'){
+            return this.oversized || this.upload === undefined;
+          } else if(this.type === 'url'){
+            return !this.url;
+          } else {
+            return false;
+          }
+        }
+      },
+      methods: {
+        getFile(event) {
+          this.upload = event.target.files[0];
+          // 上传文件 6M 限制
+          if(this.upload.size > 6 * 1024 * 1024) {
+            this.oversized = true;
+          } else {
+            this.oversized = false;
+          }
+          this.previewUrl = URL.createObjectURL(this.upload);
+        },
+        submit(event) {
+          this.error = undefined;
+          let formData = new FormData();
+
+          formData.append('type', this.type);
+          formData.append(this.type, this[this.type]);
+
+          axios.post('./recognize',
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          ).then((res) => {
+            this.text = res.data.text;
+          }).catch((err) => {
+            if(err.response && err.response.data.error){
+                this.error = err.response.data.error
+            } else {
+              this.error = err;
+            }
+          })
+          
+        }
+      }
+    })
+  </script>
+</body>
+</html>

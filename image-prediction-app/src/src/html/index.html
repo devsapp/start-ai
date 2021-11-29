@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基于 Serverless 图像预测案例</title>
+    <link href="https://www.bootcss.com/p/layoutit/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script>
+
+        var image = undefined
+
+        function getSentence() {
+            document.getElementById("result").innerText = "预测中 ..."
+            const xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+            xmlhttp.open("POST", '/image_prediction', false);
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("result").innerText = xmlhttp.responseText
+                }
+            }
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send(JSON.stringify({"image": image}));
+        }
+
+        function getImage(file) {
+            const reader = new FileReader();
+            const img = document.getElementById('img');
+
+            //读取File对象的数据
+            reader.onload = function (evt) {
+                img.src = evt.target.result;
+                image = evt.target.result
+            }
+            reader.readAsDataURL(file.files[0]);
+        }
+    </script>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 10px">
+
+    <div class="row-fluid">
+        <div class="span12">
+            <center>
+                <h3>
+                    基于 Serverless 图像预测案例
+                </h3>
+            </center>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span2">
+        </div>
+        <div class="span8">
+            <center>
+                <img src="" id="img"/>
+                <br><br>
+                <p id="result"></p>
+            </center>
+            <fieldset>
+                <legend id="action">操作：</legend>
+                <input type="file" id="upload" onchange="getImage(this)"/>
+                <button class="btn" onclick="getSentence()">图像预测</button>
+            </fieldset>
+
+        </div>
+        <div class="span2">
+        </div>
+    </div>
+</div>
+</body>
+</html>
