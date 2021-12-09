@@ -12,7 +12,6 @@
 - 初始化项目：`s init start-pytorch -d start-pytorch`
 - 进入项目：`cd start-pytorch`
 - 将 s.yaml 中的部分配置进行修改，例如容器镜像地址等
-- 构建项目：`s build --use-docker --dockerfile ./code/Dockerfile`
 - 部署项目：`s deploy`
 - 触发项目：`s invoke`
 
@@ -25,7 +24,6 @@
 - 初始化项目：`s init start-tensorflow -d start-tensorflow`
 - 进入项目：`cd start-tensorflow`
 - 将 s.yaml 中的部分配置进行修改，例如容器镜像地址等
-- 构建项目：`s build --use-docker --dockerfile ./code/Dockerfile`
 - 部署项目：`s deploy`
 - 触发项目：`s invoke`
 
