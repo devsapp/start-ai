@@ -3,7 +3,7 @@
 首先初始化该示例项目。
 
 ```bash
-$ s init devsapp/start-tensorflow -d start-tensorflow
+$ s init start-tensorflow -d start-tensorflow
 $ cd start-tensorflow
 ```
 
