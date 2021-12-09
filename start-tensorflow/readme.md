@@ -15,12 +15,14 @@ $ cd start-tensorflow
 $ s build --use-docker --dockerfile ./code/Dockerfile
 ```
 
-本案例为 custom container runtime，因此构建过程中基于 [Dockerfile](./Dockerfile) 进行了构建镜像的操作。
+> 本案例为 custom container runtime，因此构建过程中基于 [Dockerfile](./Dockerfile) 进行了构建镜像的操作。
+
+> 本案例在 Action 中已经声明了这个步骤，所以是可以自动化执行的。
 
 2. 部署
 
 ```bash
-$ s deploy --push-registry acr-internet  -y
+$ s deploy  -y
 ```
 
 3. 调用函数
