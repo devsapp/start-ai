@@ -49,7 +49,6 @@
 - 初始化项目：`s init image-prediction-app -d image-prediction-app`
 - 进入项目：`cd image-prediction-app`
 - 将 s.yaml 中的部分配置进行修改，例如VPC等
-- 构建项目：`s build --use-docker --dockerfile ./code/Dockerfile`
 - 部署项目：`s deploy`
 - 触发项目：`s invoke`
 
