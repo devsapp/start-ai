@@ -35,9 +35,9 @@ services:
           path: ./ # 命令行运行的路径
         # 关于函数进行build操作之后如何处理build的产物，可以参考文档：
         # https://github.com/devsapp/fc/blob/jiangyu-docs/docs/zh/tips.md
-        - run: s nas upload -r -n ./.s/build/artifacts/start-ai-service/server/.s/python /mnt/auto/.s/python   # 要运行的命令行
+        - run: s nas upload -r  ./.s/build/artifacts/start-ai-service/server/.s/python /mnt/auto/.s/python   # 要运行的命令行
           path: ./ # 命令行运行的路径
-        - run: s nas upload -r -n ./src/model  /mnt/auto/model   # 要运行的命令行
+        - run: s nas upload -r  ./src/model  /mnt/auto/model   # 要运行的命令行
           path: ./ # 命令行运行的路径
     props: #  组件的属性值
       region: ${vars.region}
