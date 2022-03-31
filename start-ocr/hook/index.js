@@ -1,31 +1,35 @@
 async function preInit(inputObj) {
-    console.log(`\n          ___           ___           ___     
-         /\\  \\         /\\  \\         /\\  \\    
-        /::\\  \\       /::\\  \\       /::\\  \\   
-       /:/\\:\\  \\     /:/\\:\\  \\     /:/\\:\\  \\  
-      /:/  \\:\\  \\   /:/  \\:\\  \\   /::\\~\\:\\  \\ 
-     /:/__/ \\:\\__\\ /:/__/ \\:\\__\\ /:/\\:\\ \\:\\__\\
-     \\:\\  \\ /:/  / \\:\\  \\  \\/__/ \\/_|::\\/:/  /
-      \\:\\  /:/  /   \\:\\  \\          |:|::/  / 
-       \\:\\/:/  /     \\:\\  \\         |:|\\/__/  
-        \\::/  /       \\:\\__\\        |:|  |    
-         \\/__/         \\/__/         \\|__|    
-                                        `)
+    console.log(`
+  Serverless Devs Application Case
+    
+    Cloud services required：
+    - FC : https://fc.console.aliyun.com/
+    - ACR: https://cr.console.aliyun.com/
+    
+    Tips：
+    - FC Component: https://www.serverless-devs.com/fc/readme`)
+
+    try {
+        var process = require('child_process')
+        const version = (await process.execSync('s -v')).toString()
+        const versionNumber = version.match(/s: 2\.0\.(.*?),/)[1]
+        if (Number(versionNumber) < 103) {
+            console.log('\x1B[31m%s\x1B[0m', '    * The application requires that the version of Serverless Devs is at least 2.0.103')
+            console.log('\x1B[31m%s\x1B[0m', '    * Plaese upgraded through [npm install -g @serverless-devs/s]\n\n')
+        }
+    } catch (e) {
+        console.log(e)
+        console.log(`    - Serverless Devs Version >= v2.0.103
+        `)
+    }
 }
 
 async function postInit(inputObj) {
-
-    console.log(`\n    Welcome to the image-prediction-app application
-     This application requires to open these services: 
-         FC : https://fc.console.aliyun.com/
-         ACR: https://cr.console.aliyun.com/
-     
-     * 关于项目的介绍，可以参考：https://github.com/devsapp/start-ai/tree/master/start-ocr/src
-     * 项目初始化完成，您可以直接进入项目目录下
-        1. 对s.yaml进行升级，例如将image字段内容替换为自己的ACR对应镜像地址（目标镜像地址）
-        2. 进行构建：s build --use-docker --dockerfile ./code/Dockerfile
-        3. 项目部署：s deploy --use-local -y
-     * 如果您 s deploy 失败的原因， 是由于镜像过大超过 1G, 请提工单，提供主账号 uid 和 region, 申请更大的镜像限制\n`)
+    console.log(`
+    * Before using, please check whether the actions command in Yaml file is available
+    * Carefully reading the notes in s.yaml is helpful for the use of the tool
+    * If need help in the use process, please apply to join the Dingtalk Group: 33947367
+    `)
 }
 
 module.exports = {
