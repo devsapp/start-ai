@@ -1,4 +1,4 @@
-# ImageAI 案例
+# Pytorch 案例
 
 <toc>
 
@@ -14,24 +14,24 @@
 </toc>
 
 # 快速开始
-- [:octocat: 源代码](https://github.com/devsapp/start-ai/tree/master/image-prediction-app/src)
+- [:octocat: 源代码](https://github.com/devsapp/start-ai/tree/master/start-pytorch/src)
 ## 通过应用中心部署
 
 <appcenter>
 
-您可以在阿里云 [:earth_asia: Serverless 应用中心](https://fcnext.console.aliyun.com/applications/create?template=image-prediction-app) ，快速体验该应用：   
-[![Deploy with Severless Devs](https://img.alicdn.com/imgextra/i1/O1CN01w5RFbX1v45s8TIXPz_!!6000000006118-55-tps-95-28.svg)](https://fcnext.console.aliyun.com/applications/create?template=image-prediction-app) 
+您可以在阿里云 [:earth_asia: Serverless 应用中心](https://fcnext.console.aliyun.com/applications/create?template=start-pytorch) ，快速体验该应用：   
+[![Deploy with Severless Devs](https://img.alicdn.com/imgextra/i1/O1CN01w5RFbX1v45s8TIXPz_!!6000000006118-55-tps-95-28.svg)](https://fcnext.console.aliyun.com/applications/create?template=start-pytorch) 
 
 </appcenter>
 
 ## 通过命令行工具部署
 > 在开始之前，需要先安装 Serverless Devs 开发者工具：`npm install @serverless-devs/s -g`，更多安装方法，可以参考[Serverless Devs 安装文档](https://www.serverless-devs.com/serverless-devs/install) ，针对阿里云还需要配置密钥信息，配置密钥信息的方法可以参考[阿里云密钥配置文档](https://www.serverless-devs.com/fc/config)
-- 初始化项目：`s init image-prediction-app -d image-prediction-app`    
+- 初始化项目：`s init start-pytorch -d start-pytorch`    
     > 涉及到确定密钥的选择、服务名称的确定、函数名称的确定以及容器镜像的确定    
-- 进入项目：`cd image-prediction-app`
+- 进入项目：`cd start-pytorch`
 - 部署项目：`s deploy -y`
 ## 通过阿里云CloudShell部署
-如果您不想在应用中心中快速体验，也不想下载命令行工具体验，您也可以在[ :rocket:  阿里云 CloudShell](https://api.aliyun.com/new#/tutorial?action=git_open&git_repo=https://github.com/devsapp/start-ai.git&tutorial=image-prediction-app/cloudshell.md) 中快速体验。
+如果您不想在应用中心中快速体验，也不想下载命令行工具体验，您也可以在[ :rocket:  阿里云 CloudShell](https://api.aliyun.com/new#/tutorial?action=git_open&git_repo=https://github.com/devsapp/start-ai.git&tutorial=start-pytorch/cloudshell.md) 中快速体验。
 # 应用详情
 本应用仅作为学习和参考使用，您可以基于本项目进行二次开发和完善，实现自己的业务逻辑
 # 关于我们

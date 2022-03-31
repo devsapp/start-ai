@@ -1,5 +1,7 @@
 # 人工智能项目案例
 
+<p align="center"><b> 中文 | <a href="./readme_en.md"> English </a>  </b></p>
+
 - [PyTorch案例](#Pytorch)
 - [Tensorflow案例](#Tensorflow)
 - [OCR案例](#OCR案例)
