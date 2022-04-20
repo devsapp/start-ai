@@ -22,7 +22,7 @@ name: start-ai
 access: "{{ access }}"
 
 vars: # 全局变量
-  region: {{ serviceName }}
+  region: "{{ serviceName }}"
   service:
     name: start-ai
 
@@ -46,13 +46,13 @@ services:
       region: ${vars.region}        # 关于变量的使用方法，可以参考：https://www.serverless-devs.com/serverless-devs/yaml#变量赋值
       service: ${vars.service}
       function:
-        name: {{ functionName }}
+        name: "{{ functionName }}"
         description: 'hello world by serverless devs'
         timeout: 300
         memorySize: 2048
         runtime: custom-container
         customContainerConfig:
-          image: {{ acrRegistry }}
+          image: "{{ acrRegistry }}"
           accelerationType: Default
         caPort: 9000
         environmentVariables:
