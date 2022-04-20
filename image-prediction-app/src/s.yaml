@@ -22,7 +22,7 @@ name: start-ai
 access: "{{ access }}"
 
 vars: # 全局变量
-  region: {{ region }}
+  region: "{{ region }}"
   service:
     name: start-ai
     nasConfig: auto
