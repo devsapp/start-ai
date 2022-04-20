@@ -1,1 +1,3 @@
-./image-prediction-app
+./start-pytorch
+./start-tensorflow
+./start-ocr
