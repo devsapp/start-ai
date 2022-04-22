@@ -25,6 +25,7 @@ vars: # 全局变量
   region: "{{ region }}"
   service:
     name: start-ai
+    nasConfig: auto
 
 services:
   ai-project: # 业务名称/模块名称

@@ -27,6 +27,7 @@ vars: # global variables
     name: start-ai
   function:
     name: server
+    nasConfig: auto
 
 services:
   helloworld: # business name/module name
