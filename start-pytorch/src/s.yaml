@@ -22,11 +22,9 @@ name: start-ai
 access: "{{ access }}"
 
 vars: # 全局变量
-  region: "{{ serviceName }}"
+  region: "{{ region }}"
   service:
     name: "{{ serviceName }}"
-    nasConfig: auto
-    vpcConfig: auto
 
 services:
   ai-project: # 业务名称/模块名称
