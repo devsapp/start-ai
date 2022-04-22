@@ -22,7 +22,7 @@ name: start-ai
 # access: "{{ access }}"
 
 vars: # global variables
-  region: "{{ region }}"
+  region: "cn-hangzhou"
   service:
     name: start-ai
 
@@ -46,14 +46,14 @@ services:
       region: ${vars.region} # For the usage of variables, please refer to: https://www.serverless-devs.com/serverless-devs/yaml#Variable assignment
       service: ${vars.service}
       function:
-        name: "{{ functionName }}"
+        name: "server"
         description: 'hello world by serverless devs'
         timeout: 60
         caPort: 9000
         memorySize: 1536
         runtime: custom-container
         customContainerConfig:
-          image: "{{ acrRegistry }}" # You need to replace it with your own registry address
+          image: "registry.cn-shenzhen.aliyuncs.com/fc-demo/fc-tensorflow:v0.1" # You need to replace it with your own registry address
         codeUri: ./code
 #  next-function: # The case of the second function, just for reference
 #    # If you execute s deploy under the current project, the modules will be deployed at the same time:
