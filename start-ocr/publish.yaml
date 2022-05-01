@@ -2,7 +2,7 @@ Type: Application
 Name: start-ocr
 Provider:
   - 阿里云
-Version: 0.1.5
+Version: 0.1.10
 Description: 基于 tesseract 框架的 OCR 案例，Tesseract可以处理很多自然语音，英语、葡萄牙语系、意第绪语等。截止到2015年为止支持超过100种书面语言，并且可以通过训练学习轻松掌握其他语言
 HomePage: https://github.com/devsapp/start-ocr
 Tags:
