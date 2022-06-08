@@ -56,7 +56,7 @@ services:
       function:
         name: server
         description: 图片目标检测
-        runtime: python3
+        runtime: python3.9
         codeUri: ./src
         handler: index.app
         memorySize: 3072
