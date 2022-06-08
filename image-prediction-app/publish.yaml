@@ -1,6 +1,6 @@
 Type: Application
 Name: image-prediction-app
-Version: 0.1.17
+Version: 0.1.19
 Provider:
   - 阿里云
 Description: 基于 ImageAI 框架的的目标检测
@@ -13,7 +13,6 @@ Service:
   函数计算:
     Authorities:
       - AliyunFCFullAccess
-    Runtime: Python3
 Parameters:
   type: object
   additionalProperties: false # 不允许增加其他属性
@@ -27,21 +26,13 @@ Parameters:
       description: 创建应用所在的地区
       enum:
         - cn-beijing
-        - cn-hangzhou
         - cn-shanghai
-        - cn-qingdao
+        - cn-hangzhou
+        - cn-shenzhen
         - cn-zhangjiakou
         - cn-huhehaote
-        - cn-shenzhen
-        - cn-chengdu
         - cn-hongkong
-        - ap-southeast-1
-        - ap-southeast-2
-        - ap-southeast-3
-        - ap-southeast-5
         - ap-northeast-1
+        - ap-southeast-1
         - eu-central-1
-        - eu-west-1
-        - us-west-1
         - us-east-1
-        - ap-south-1

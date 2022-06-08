@@ -27,7 +27,6 @@ vars: # global variables
     name: start-ai
   function:
     name: server
-    nasConfig: auto
 
 services:
   helloworld: # business name/module name
@@ -37,32 +36,27 @@ services:
     component: fc    # The name of the component. The Serverless Devs tool itself is similar to a game console and does not have specific business capabilities. The component is similar to a game card. Users can achieve different functions by inserting different game cards into the game console, that is, by using Different components implement different specific business capabilities
     actions:         # Customize execution logic. For the use of actions, please refer to: https://www.serverless-devs.com/serverless-devs/yaml#Behavior description
       pre-deploy:    # run before deploy
-        - component: fc build --use-docker # The component to run, the format is [component: component name command parameter] (you can get the component list through s cli registry search --type Component)
+        - component: fc build --use-docker
 #       - run: docker build xxx            # System command to execute, similar to a hook
 #         path: ./src                      # The path to execute system commands/hooks
 #       - plugin: myplugin                 # and running plugins (you can get a list of components via s cli registry search --type Plugin)
 #         args:                            # parameter information of the plugin
 #           testKey: testValue
-      post-deploy:                         # run after deploy
-        # If the .s directory already exists, this step will report an error, you can delete this step at this time
-        - component: fc nas command mkdir /mnt/auto/.s
-        # For how to process the build product after the function performs the build operation, you can refer to the documentation:
-        # https://www.serverless-devs.com/fc/tips# How to process the build product after the function performs the build operation
-        - component: fc nas upload -r ./.s/build/artifacts/start-ai/server/.s/python /mnt/auto/.s/python # upload pacakges
-        - component: fc nas upload -r ./src/model /mnt/auto/model # upload model
     props:
       region: ${vars.region} # For the usage of variables, please refer to: https://www.serverless-devs.com/serverless-devs/yaml#Variable assignment
       service: ${vars.service}
       function:
         name: server
         description: 'hello world by serverless devs'
-        runtime: python3.9
-        codeUri: ./src
-        handler: index.app
+        runtime: custom
+        codeUri: ./code
         memorySize: 3072
         timeout: 60
-        environmentVariables:
-          PYTHONUSERBASE: /mnt/auto/.s/python
+        customRuntimeConfig:
+          command:
+            - python
+          args:
+            - index.py
       triggers:
         - name: httpTrigger
           type: http
