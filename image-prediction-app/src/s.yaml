@@ -24,7 +24,7 @@ access: "{{ access }}"
 vars: # 全局变量
   region: "{{ region }}"
   service:
-    name: start-ai
+    name: "{{ serviceName }}"
 
 services:
   ai-project: # 业务名称/模块名称
@@ -46,7 +46,7 @@ services:
       region: ${vars.region}        # 关于变量的使用方法，可以参考：https://www.serverless-devs.com/serverless-devs/yaml#变量赋值
       service: ${vars.service}
       function:
-        name: server
+        name: "{{ functionName }}"
         description: 图片目标检测
         runtime: custom
         codeUri: ./code
